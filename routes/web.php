@@ -21,6 +21,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::redirect('/', '/login')->name('index');
+
 Auth::routes(['verify' => true]);
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/category/{id}', [HomeController::class, 'category'])->name('category');
@@ -28,28 +30,28 @@ Route::get('/category/{id}', [HomeController::class, 'category'])->name('categor
 Route::prefix('categories')->middleware('is_admin')->group(function (){
     Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
     Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/{id}/destroy', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 Route::prefix('tags')->middleware('is_admin')->group(function (){
     Route::get('/', [TagController::class, 'index'])->name('tags.index');
     Route::post('/store', [TagController::class, 'store'])->name('tags.store');
-    Route::get('/edit/{id}', [TagController::class, 'edit'])->name('tags.edit');
-    Route::put('/update/{id}', [TagController::class, 'update'])->name('tags.update');
-    Route::delete('/destroy/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
+    Route::get('/{id}/edit', [TagController::class, 'edit'])->name('tags.edit');
+    Route::put('/{id}/update', [TagController::class, 'update'])->name('tags.update');
+    Route::delete('/{id}/destroy', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
 Route::prefix('articles')->group(function (){
     Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/store', [ArticleController::class, 'store'])->name('articles.store');
-    Route::get('/edit/{id}', [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::put('/update/{id}', [ArticleController::class, 'update'])->name('articles.update');
-    Route::delete('/destroy/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-    Route::get('/show/{id}', [ArticleController::class, 'show'])->name('articles.show');
-    Route::get('/approve/{id}', [ArticleController::class, 'approve'])->name('articles.approve');
+    Route::get('/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+    Route::put('/{id}/update', [ArticleController::class, 'update'])->name('articles.update');
+    Route::delete('/{id}/destroy', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::get('/{id}/show', [ArticleController::class, 'show'])->name('articles.show');
+    Route::get('/{id}/approve', [ArticleController::class, 'approve'])->name('articles.approve');
 
 });
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTagRequest;
 use App\Repositories\TagRepository;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TagController extends Controller
 {
@@ -24,6 +24,7 @@ class TagController extends Controller
     public function store(StoreTagRequest $request)
     {
         $this->tagRepository->createTag($request->validated());
+        Session::flash('success', 'Tag created successfully');
         return redirect()->route('tags.index');
     }
 
@@ -35,13 +36,15 @@ class TagController extends Controller
 
     public function update(StoreTagRequest $request,$id)
     {
-        $tag = $this->tagRepository->updateTag($id,$request->validated());
-        return redirect()->route('tags.index',compact('tag'));
+        $this->tagRepository->updateTag($id,$request->validated());
+        Session::flash('success', 'Tag updated successfully');
+        return redirect()->route('tags.index');
     }
 
     public function destroy($id)
     {
         $this->tagRepository->deleteTag($id);
+        Session::flash('success', 'Tag deleted successfully');
         return redirect()->route('tags.index');
     }
 }

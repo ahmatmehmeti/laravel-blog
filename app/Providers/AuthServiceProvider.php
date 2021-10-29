@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +26,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('edit-article', function ($user, $article) {
+            if (Auth::check()) {
+                if (Auth::user()->isAdmin() || $user->id === $article->user_id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 }

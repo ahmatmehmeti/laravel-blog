@@ -69,7 +69,7 @@
 
                         <div class="form-group mt-2">
                             <label for="name">Select Date:</label>
-                            <input type="date" name="created_at" class="form-control form-control-lg @error('created_at') is-invalid @enderror">
+                            <input type="datetime-local" name="created_at" class="form-control form-control-lg @error('created_at') is-invalid @enderror">
                             @error('created_at')
                             <span class="invalid-feedback">
                                     {{ $message }}

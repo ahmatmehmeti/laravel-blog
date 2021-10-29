@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Models\Article;
 use App\Models\Category;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleRepository extends BaseRepository
 {
@@ -13,9 +15,17 @@ class ArticleRepository extends BaseRepository
         return new Article();
     }
 
-    public function getArticles()
+    public function getArticles(){
+        return Article::where('status','1')->orderBy('created_at', 'desc')->paginate(4);
+    }
+
+    public function allAdminArticles(){
+        return Article::orderBy('created_at', 'desc')->paginate(4);
+    }
+
+    public function allUserArticles()
     {
-        return $this->get();
+        return Article::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(1);
     }
 
     public function createArticle(array $data)
@@ -44,7 +54,9 @@ class ArticleRepository extends BaseRepository
 
     public function findArticle($id)
     {
-        return $this->find($id);
+        $article =  $this->find($id);
+        Gate::authorize('edit-article', $article);
+        return $article;
     }
 
     public function findSelectedTags($article)
@@ -58,6 +70,7 @@ class ArticleRepository extends BaseRepository
     public function updateArticle($id ,array $data)
     {
         $article = $this->findArticle($id);
+        Gate::authorize('edit-article', $article);
         if(isset($data['image'])){
             $image = $data['image'];
             $name = time() . '.' . $image->getClientOriginalExtension();
@@ -83,6 +96,7 @@ class ArticleRepository extends BaseRepository
     public function deleteArticle($id)
     {
         $article = $this->find($id);
+        Gate::authorize('edit-article', $article);
         $article->delete();
     }
 

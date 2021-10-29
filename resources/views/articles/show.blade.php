@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class='panel-heading'><h3></h3></div>
-                                    <p><b>Description:</b> {{$article->body}} </p><br>
+                                    <p><b>Description:</b> {!!$article->body!!} </p><br>
                                 </div>
                                 <div class="col-md-3">
                                     <p><b>Category: </b> {{$article->category->name}}</p><br>

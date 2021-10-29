@@ -19,7 +19,6 @@
                                 <th>*</th>
                                 <th>Title</th>
                                 <th>Body</th>
-                                <th>Date</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
@@ -28,8 +27,7 @@
                             <tr>
                                 <td> {{$article->id}} </td>
                                 <td> {{$article->title}} </td>
-                                <td> {{$article->body}} </td>
-                                <td> {{$article->created_at}} </td>
+                                <td> {!!$article->body!!} </td>
                                 <td class="text-center">
                                     @if(Auth::user()->role == 'admin' && $article->status == 0)
                                         <a href="{{route('articles.approve',['id'=>$article->id])}}" class="btn btn-warning ;">Approve</a>
@@ -42,12 +40,13 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="links text-center">
-                        <a href="" class="btn btn-primary"></a>
-                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    <div class="text-center mt-2">
+        {!! $articles->links(); !!}
     </div>
 </div>
 @endsection

@@ -62,12 +62,14 @@
                                     <a class="dropdown-item" href="{{ route('articles.index') }}">
                                         {{ __('Articles') }}
                                     </a>
+                                    @if (Auth::user()->isAdmin())
                                     <a class="dropdown-item" href="{{ route('categories.index') }}">
                                         {{ __('Categories') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('tags.index') }}">
                                         {{ __('Tags') }}
                                     </a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -85,6 +87,16 @@
         </nav>
 
         <main class="py-4">
+            <div class="row">
+                <div class="col-md-12">
+
+                    @if(Session::has('success'))
+                        <div class="alert alert-success" role="alert">
+                            <strong>Success:</strong> {{Session::get('success')}}
+                        </div>
+                    @endif
+                </div>
+            </div>
             @yield('content')
         </main>
     </div>
